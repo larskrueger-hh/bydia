@@ -66,40 +66,17 @@
         <h1>Chat Interface</h1>
         <div id="chatWindow"></div>
         <input type="text" id="userInput" placeholder="Type your message...">
-        <button onclick="sendMessage()">Send</button>
+        
     </div>
   </div>
 </div>
     <script>
-        function getResponse() 
-        {
-            const userInput = document.getElementById('userInput').value;
-
-            // Make sure to replace 'YOUR_API_KEY' and 'YOUR_ENDPOINT_URL' with actual values
-            const apiKey = 'YOUR_API_KEY';
-            const endpointUrl = 'YOUR_ENDPOINT_URL';
-
-            fetch(endpointUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({
-                    input: userInput
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Display the AI model's response on the web page
-                const responseContainer = document.getElementById('responseContainer');
-                responseContainer.innerText = data.output;
-            })
-            .catch(error => console.error('Error:', error));
-        }
    function sendMessage() {
     const userInput = document.getElementById('userInput').value;
     const chatWindow = document.getElementById('chatWindow');
+    // Make sure to replace 'YOUR_API_KEY' and 'YOUR_ENDPOINT_URL' with actual values
+    const apiKey = 'YOUR_API_KEY';
+    const endpointUrl = 'YOUR_ENDPOINT_URL';
 
     // Display user's message in the chat window
     chatWindow.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
@@ -108,11 +85,11 @@
     document.getElementById('userInput').value = '';
 
     // Make an API call to the model to get its response
-    fetch('YOUR_MODEL_API_ENDPOINT', {
+    fetch(endpointUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            // Add any necessary headers, such as authentication headers
+            'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
             input: userInput
