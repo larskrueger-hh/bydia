@@ -35,6 +35,13 @@
     padding: 10px;
     min-height: 150px;
   }
+ #chatWindow {
+            width: 300px;
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+ }
 </style>
 </head>
 <body>
@@ -56,16 +63,16 @@
     <div class="dialogue-box">
       <h2>OpenAI Assistant Dialogue Box</h2>
       <p>This is where the conversation with the OpenAI Assistant will be displayed.</p>
-        <h1>AI Model Integration</h1>
-        <label for="userInput">Enter text:</label>
-        <input type="text" id="userInput">
-        <button onclick="getResponse()">Get Response</button>
-        <div id="responseContainer"></div>
+        <h1>Chat Interface</h1>
+        <div id="chatWindow"></div>
+        <input type="text" id="userInput" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 </div>
     <script>
-        function getResponse() {
+        function getResponse() 
+        {
             const userInput = document.getElementById('userInput').value;
 
             // Make sure to replace 'YOUR_API_KEY' and 'YOUR_ENDPOINT_URL' with actual values
@@ -90,6 +97,37 @@
             })
             .catch(error => console.error('Error:', error));
         }
+   function sendMessage() {
+    const userInput = document.getElementById('userInput').value;
+    const chatWindow = document.getElementById('chatWindow');
+
+    // Display user's message in the chat window
+    chatWindow.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+
+    // Clear the input field after sending the message
+    document.getElementById('userInput').value = '';
+
+    // Make an API call to the model to get its response
+    fetch('YOUR_MODEL_API_ENDPOINT', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // Add any necessary headers, such as authentication headers
+        },
+        body: JSON.stringify({
+            input: userInput
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display the model's response in the chat window
+        chatWindow.innerHTML += `<p><strong>Model:</strong> ${data.output}</p>`;
+        
+        // Scroll to the bottom of the chat window to show the latest message
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    })
+    .catch(error => console.error('Error:', error));
+}
     </script>
 </body>
 </html>
